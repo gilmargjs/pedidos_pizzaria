@@ -50,9 +50,6 @@ pizzaJson.map((item, index) => {
         //variavel para o modal
         modalQt = 1;
 
-
-
-
         //adicionando imagem 
         c('.pizzaBig img').src = item.img;
         //adicionando nome
@@ -75,6 +72,7 @@ pizzaJson.map((item, index) => {
             size.querySelector('span').innerHTML = pizzaJson[key].sizes[indexsizes];
         });
 
+        c('.pizzaInfo--qt').innerHTML = modalQt;
 
         //acrecentando opacidade 0 ao menu
         c('.pizzaWindowArea').style.opacity = 0;
@@ -94,7 +92,7 @@ pizzaJson.map((item, index) => {
 //FECHAR O MODAL
 
 //funçaõ para fechar modal
-function closeModal()  {
+function closeModal() {
     //efeito para fechar 
     c('.pizzaWindowArea').style.opacity = 0;
     //modificando o display none para sumir com o modal
@@ -105,4 +103,21 @@ function closeModal()  {
 //pegando os botoes para execultar o evento de click com função closeModal
 cal('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) => {
     item.addEventListener('click', closeModal);
+})
+
+//configurar botão de menos
+c('.pizzaInfo--qtmenos').addEventListener('click', () => {
+    if(modalQt > 1) {
+        modalQt--;
+        c('.pizzaInfo--qt').innerHTML = modalQt;
+
+    };
+
+})
+
+//configurar botão de mais
+c('.pizzaInfo--qtmais').addEventListener("click", () => {
+    modalQt++;
+    c('.pizzaInfo--qt').innerHTML = modalQt;
+
 })
