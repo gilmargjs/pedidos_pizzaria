@@ -1,3 +1,9 @@
+//variavel para mostrar o numero da pizza
+let modalKey = 0;   
+
+//variavel do carrinho
+let cart = [];
+
 //variavel para o modal
 let modalQt = 1;
 
@@ -24,7 +30,7 @@ pizzaJson.map((item, index) => {
     pizzaItem.querySelector('.pizza-item--img img').src = item.img;
 
     //pegar classe e colocar o valor
-    pizzaItem.querySelector('.pizza-item--price').innerHTML = `R$ ${item.price.toFixed(2).replace('.',',')}`;
+    pizzaItem.querySelector('.pizza-item--price').innerHTML = `R$ ${item.price.toFixed(2)}`;
 
     //pegar a classe e colocar o nome do produto
     pizzaItem.querySelector('.pizza-item--name').innerHTML = item.name;
@@ -50,6 +56,11 @@ pizzaJson.map((item, index) => {
         //variavel para o modal
         modalQt = 1;
 
+        ///***** adicionar carrinho *****/
+        //atualizando o valor do numero da pizza
+        modalKey = key;
+        
+        
         //adicionando imagem 
         c('.pizzaBig img').src = item.img;
         //adicionando nome
@@ -57,7 +68,7 @@ pizzaJson.map((item, index) => {
         //adicionando descrição
         c('.pizzaInfo--desc').innerHTML = item.description;
         //adicionando preço
-        c('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2).replace('.',',')}`;
+        c('.pizzaInfo--actualPrice').innerHTML = `R$ ${pizzaJson[key].price.toFixed(2)}`;
         //tirando a seleção padrão da pizza grande
         c('.pizzaInfo--size.selected').classList.remove('selected');
 
@@ -107,17 +118,44 @@ cal('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) =
 
 //configurar botão de menos
 c('.pizzaInfo--qtmenos').addEventListener('click', () => {
-    if(modalQt > 1) {
+    if (modalQt > 1) {
         modalQt--;
         c('.pizzaInfo--qt').innerHTML = modalQt;
 
     };
 
-})
+});
 
 //configurar botão de mais
 c('.pizzaInfo--qtmais').addEventListener("click", () => {
     modalQt++;
     c('.pizzaInfo--qt').innerHTML = modalQt;
 
-})
+});
+
+//selecionando para desabilitar todos e depois 
+//selecionando especifico
+cal('.pizzaInfo--size').forEach((size, indexsizes) => {
+    //evento para selecionar os botoes de tamanho e depois removelos
+    size.addEventListener('click', (e) => {
+        //selecionando a classe para ser removida
+        c('.pizzaInfo--size.selected').classList.remove('selected');
+        //adicionando a classe selectede no botão clicado
+        size.classList.add('selected')
+    })
+});
+
+
+     //******* adicionar ao carrinho ********/
+
+c('.pizzaInfo--addButton').addEventListener('click', ()=>{
+    let size = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
+    //Valores do Carrinho
+    cart.push({
+        id:pizzaJson[modalKey].id,  //identidade da pizza
+        size,                       //tamanho da pizza
+        qt:modalQt                  //quantidade de pizza
+    })
+    //Fechando o Modal
+    closeModal();
+});
